@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام توقع مرض السكري</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Arabic Support -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .main-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border: none;
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 20px 20px 0 0 !important;
+            padding: 25px;
+            border: none;
+        }
+        
+        .card-header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-header p {
+            margin: 10px 0 0 0;
+            opacity: 0.95;
+            font-size: 1.1rem;
+        }
+        
+        .card-body {
+            padding: 30px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+        
+        .form-select {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            padding: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-select:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 0 0.2rem rgba(79, 172, 254, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(79, 172, 254, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .result-box {
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+        }
+        
+        .alert-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            border: none;
+        }
+        
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .mb-3 {
+            margin-bottom: 1.5rem !important;
+        }
+        
+        #pregnancyField {
+            display: none;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header Card -->
+        <div class="card">
+            <div class="card-header text-center">
+                <i class="bi bi-heart-pulse icon"></i>
+                <h1>نظام توقع مرض السكري</h1>
+                <p>نظام ذكي للتنبؤ باحتمالية الإصابة بمرض السكري</p>
+            </div>
+            
+            <div class="card-body">
+                <!-- Form -->
+                <form method="POST" action="/">
+                    <!-- Gender Selection -->
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">
+                            <i class="bi bi-person"></i> النوع
+                        </label>
+                        <select class="form-select" id="gender" name="gender" required onchange="togglePregnancy()">
+                            <option value="">اختر النوع</option>
+                            <option value="male" {% if user_input.gender == 'male' %}selected{% endif %}>ذكر</option>
+                            <option value="female" {% if user_input.gender == 'female' %}selected{% endif %}>أنثى</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Pregnancies Field (Hidden by default) -->
+                    <div class="mb-3" id="pregnancyField">
+                        <label for="pregnancies" class="form-label">
+                            <i class="bi bi-list-ol"></i> عدد مرات الحمل
+                        </label>
+                        <select class="form-select" id="pregnancies" name="pregnancies">
+                            {% for i in range(11) %}
+                            <option value="{{ i }}" {% if user_input.get('pregnancies', '0')|int == i %}selected{% endif %}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Glucose Level -->
+                    <div class="mb-3">
+                        <label for="glucose" class="form-label">
+                            <i class="bi bi-droplet"></i> مستوى الجلوكوز
+                        </label>
+                        <select class="form-select" id="glucose" name="glucose" required>
+                            <option value="">اختر المستوى</option>
+                            <option value="low" {% if user_input.glucose == 'low' %}selected{% endif %}>منخفض (Low)</option>
+                            <option value="medium" {% if user_input.glucose == 'medium' %}selected{% endif %}>متوسط (Medium)</option>
+                            <option value="high" {% if user_input.glucose == 'high' %}selected{% endif %}>مرتفع جداً (Very High)</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Blood Pressure -->
+                    <div class="mb-3">
+                        <label for="blood_pressure" class="form-label">
+                            <i class="bi bi-activity"></i> ضغط الدم
+                        </label>
+                        <select class="form-select" id="blood_pressure" name="blood_pressure" required>
+                            <option value="">اختر المستوى</option>
+                            <option value="low" {% if user_input.blood_pressure == 'low' %}selected{% endif %}>منخفض (Low)</option>
+                            <option value="normal" {% if user_input.blood_pressure == 'normal' %}selected{% endif %}>طبيعي (Normal)</option>
+                            <option value="high" {% if user_input.blood_pressure == 'high' %}selected{% endif %}>مرتفع (High)</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Skin Thickness -->
+                    <div class="mb-3">
+                        <label for="skin_thickness" class="form-label">
+                            <i class="bi bi-hand-index"></i> سُمك الجلد
+                        </label>
+                        <select class="form-select" id="skin_thickness" name="skin_thickness" required>
+                            <option value="">اختر المستوى</option>
+                            <option value="low" {% if user_input.skin_thickness == 'low' %}selected{% endif %}>منخفض (Low)</option>
+                            <option value="medium" {% if user_input.skin_thickness == 'medium' %}selected{% endif %}>متوسط (Medium)</option>
+                            <option value="high" {% if user_input.skin_thickness == 'high' %}selected{% endif %}>مرتفع (High)</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Insulin -->
+                    <div class="mb-3">
+                        <label for="insulin" class="form-label">
+                            <i class="bi bi-capsule"></i> الإنسولين
+                        </label>
+                        <select class="form-select" id="insulin" name="insulin" required>
+                            <option value="">اختر المستوى</option>
+                            <option value="low" {% if user_input.insulin == 'low' %}selected{% endif %}>منخفض (Low)</option>
+                            <option value="medium" {% if user_input.insulin == 'medium' %}selected{% endif %}>متوسط (Medium)</option>
+                            <option value="high" {% if user_input.insulin == 'high' %}selected{% endif %}>مرتفع (High)</option>
+                        </select>
+                    </div>
+                    
+                    <!-- BMI -->
+                    <div class="mb-3">
+                        <label for="bmi" class="form-label">
+                            <i class="bi bi-speedometer2"></i> مؤشر كتلة الجسم
+                        </label>
+                        <select class="form-select" id="bmi" name="bmi" required>
+                            <option value="">اختر الفئة</option>
+                            <option value="underweight" {% if user_input.bmi == 'underweight' %}selected{% endif %}>نقص الوزن (Underweight)</option>
+                            <option value="normal" {% if user_input.bmi == 'normal' %}selected{% endif %}>طبيعي (Normal)</option>
+                            <option value="overweight" {% if user_input.bmi == 'overweight' %}selected{% endif %}>زيادة الوزن (Overweight)</option>
+                            <option value="obese" {% if user_input.bmi == 'obese' %}selected{% endif %}>سمنة (Obese)</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Age -->
+                    <div class="mb-3">
+                        <label for="age" class="form-label">
+                            <i class="bi bi-calendar"></i> العمر
+                        </label>
+                        <select class="form-select" id="age" name="age" required>
+                            <option value="">اختر الفئة العمرية</option>
+                            <option value="young" {% if user_input.age == 'young' %}selected{% endif %}>شاب (Young - حتى 30)</option>
+                            <option value="middle" {% if user_input.age == 'middle' %}selected{% endif %}>متوسط العمر (Middle-aged - 30-50)</option>
+                            <option value="old" {% if user_input.age == 'old' %}selected{% endif %}>كبير السن (Old - فوق 50)</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> تحليل النتيجة
+                    </button>
+                </form>
+                
+                <!-- Prediction Result -->
+                {% if prediction %}
+                <div class="result-box alert alert-{{ prediction_class }}">
+                    {% if prediction_class == 'success' %}
+                    <i class="bi bi-check-circle icon"></i>
+                    {% elif prediction_class == 'warning' %}
+                    <i class="bi bi-exclamation-triangle icon"></i>
+                    {% else %}
+                    <i class="bi bi-x-circle icon"></i>
+                    {% endif %}
+                    <div>{{ prediction }}</div>
+                </div>
+                {% endif %}
+                
+                <!-- Analysis Link -->
+                <div class="text-center mt-4">
+                    <a href="/analysis" class="btn btn-secondary">
+                        <i class="bi bi-bar-chart"></i> عرض التحليل والإحصائيات
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>
+                <i class="bi bi-heart-fill"></i>
+                نظام توقع مرض السكري - مشروع تعلم آلي باستخدام Python و Flask
+            </p>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Toggle pregnancy field based on gender selection
+        function togglePregnancy() {
+            const gender = document.getElementById('gender').value;
+            const pregnancyField = document.getElementById('pregnancyField');
+            const pregnancySelect = document.getElementById('pregnancies');
+            
+            if (gender === 'female') {
+                pregnancyField.style.display = 'block';
+                pregnancySelect.required = true;
+            } else {
+                pregnancyField.style.display = 'none';
+                pregnancySelect.required = false;
+                pregnancySelect.value = '0';
+            }
+        }
+        
+        // Check on page load if gender is already selected
+        window.addEventListener('load', function() {
+            togglePregnancy();
+        });
+    </script>
+</body>
+</html>

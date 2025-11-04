@@ -1,0 +1,90 @@
+🩺 Build an Intelligent Diabetes Prediction System – Interactive Arabic Web Interface
+
+I want you to create a complete Machine Learning project to predict the likelihood of having diabetes.
+The project must be fully functional inside Replit and ready to be shared on GitHub afterward.
+Please follow the instructions exactly as written below.
+
+⚙️ General Setup:
+- Programming Language: Python
+- Required Libraries: pandas, numpy, scikit-learn, matplotlib, seaborn, Flask, joblib, Bootstrap
+- Project Name: “Diabetes Prediction System – Arabic Version”
+
+🧩 Part 1: Model Training (train_model.py)
+1. Use the Pima Indians Diabetes Dataset (from scikit-learn or a CSV file).
+2. Perform Exploratory Data Analysis (EDA) with visualizations:
+   - Show the relationship between glucose level and diabetes result.
+   - Show how age correlates with diabetes.
+3. Train multiple models:
+   - Logistic Regression
+   - Random Forest
+   - XGBoost
+4. Compare the models’ accuracies and print the results in the console.
+5. Save the best-performing model using joblib with the filename: diabetes_model.pkl
+6. Add clear comments in Arabic inside the code explaining each section.
+
+🌐 Part 2: Flask Web Application (app.py)
+Create a Flask web app in Arabic language, containing the following pages:
+
+🏠 Home Page
+- Title at the top: "نظام توقع مرض السكري" (“Diabetes Prediction System”)
+- Use Bootstrap for styling, with a calm blue background.
+- Centered form in Arabic for entering user data.
+
+📋 Input Form
+At the top, the user selects their gender from a dropdown menu:
+- “النوع” → (Male / Female)
+
+Then:
+- If the user chooses Male, hide the Pregnancies field.
+- If the user chooses Female, show a field for “عدد مرات الحمل” (Number of Pregnancies) with values from 0 to 10.
+
+All other inputs should be dropdown menus (not manual text fields):
+
+| Variable | Arabic Label | Dropdown Options | Notes |
+|-----------|---------------|------------------|--------|
+| Glucose | مستوى الجلوكوز | Low / Medium / Very High | |
+| BloodPressure | ضغط الدم | Low / Normal / High | |
+| SkinThickness | سُمك الجلد | Low / Medium / High | |
+| Insulin | الإنسولين | Low / Medium / High | |
+| BMI | مؤشر كتلة الجسم | Underweight / Normal / Overweight / Obese | |
+| Age | العمر | Young / Middle-aged / Old | |
+
+Internally, the app should map these choices to numerical values suitable for the model.
+
+🔍 Prediction Button
+A button labeled “تحليل النتيجة” (“Analyze Result”).
+When clicked, the user’s input values are sent to the model (diabetes_model.pkl) for prediction.
+
+📊 Result Display
+The result should appear on the same page, inside a colored box:
+- ✅ If prediction is negative: "احتمال الإصابة بمرض السكري منخفض." (“Low chance of diabetes.”)
+- ⚠️ If prediction is positive: "احتمال الإصابة بمرض السكري مرتفع، يُفضل مراجعة الطبيب." (“High chance of diabetes, medical consultation recommended.”)
+
+📈 Additional Page: “Data Analysis”
+Create another Flask route /analysis
+This page shows EDA plots (matplotlib/seaborn), such as:
+- Glucose distribution by diabetes result.
+- Age vs. diabetes correlation.
+All text must be in Arabic, and include a button to return to the home page.
+
+📁 Final Project Structure:
+project/
+│
+├── train_model.py
+├── app.py
+├── diabetes_model.pkl
+├── static/
+│   └── (Bootstrap or CSS files)
+└── templates/
+    ├── index.html
+    └── analysis.html
+
+✅ Final Requirements:
+- All visible text on the website must be in Arabic.
+- Add Arabic comments throughout the code.
+- When running app.py on Replit, the home page should open automatically.
+- The project must run entirely inside Replit without local setup.
+- The design should be simple, clean, and elegant.
+
+Now start building the project step by step, creating each file with its full working code.
+Begin now 🚀
